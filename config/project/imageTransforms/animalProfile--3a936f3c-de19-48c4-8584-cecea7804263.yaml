@@ -1,0 +1,11 @@
+fill: '#ffffff'
+format: null
+handle: animalProfile
+height: 256
+interlace: none
+mode: letterbox
+name: 'Animal Profile'
+position: top-center
+quality: null
+upscale: true
+width: 558

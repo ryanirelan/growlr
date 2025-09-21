@@ -1,0 +1,38 @@
+{% extends "_layouts/wrapper" %}
+{% block content %}
+    {% if currentUser %}
+        {# Logged-in user sees the assessment #}
+
+        {# Sprig with only Twig #}
+        {{ sprig('_sprig/components/matcher-twig') }}
+
+        {# Sprig with Component Class #}
+{#            {{ sprig('Matcher') }}#}
+
+    {% else %}
+        {# Not logged-in users see a landing page #}
+            <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">How It Works</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="text-center">
+                        <div class="text-4xl mb-3">1</div>
+                        <h3 class="font-semibold text-gray-700 mb-2">Take Assessment</h3>
+                        <p class="text-gray-600">Answer questions about your lifestyle and preferences</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl mb-3">2</div>
+                        <h3 class="font-semibold text-gray-700 mb-2">Get Matched</h3>
+                        <p class="text-gray-600">Our algorithm finds compatible animal companions</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl mb-3">3</div>
+                        <h3 class="font-semibold text-gray-700 mb-2">Find Love</h3>
+                        <p class="text-gray-600">Connect with your perfect pawmate</p>
+                    </div>
+                </div>
+            </div>
+            <a href="{{ loginUrl }}" class="bg-pink-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-pink-700 transition-colors">
+                Get Started
+            </a>
+    {% endif %}
+{% endblock %}

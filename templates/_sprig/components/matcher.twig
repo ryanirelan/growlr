@@ -1,0 +1,27 @@
+{# Sprig + Twig + Sprig Component Class #}
+{% do sprig.setConfig({ requestClass: 'loading' }) %}
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-white rounded-lg shadow-2xl p-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-6">Step 1: Your Pawtner's Attributes</h2>
+                <div class="space-y-6">
+                    {% include('_sprig/components/sliders') %}
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden" style="min-height: 500px;">
+                <div id="indicator" class="flip-card h-full">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front p-6">
+                            <h2 class="text-2xl font-semibold text-gray-800 mb-6">Step 2: Find Your Pawtner</h2>
+                            {% include('_sprig/components/results') %}
+                        </div>
+                        <div class="flip-card-back p-6">
+                            <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-pink-600 mb-6"></div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">Finding Your Match</h3>
+                            <p class="text-gray-600">Analyzing compatibility...</p>
+                            <div class="mt-6 text-6xl">🐾</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>

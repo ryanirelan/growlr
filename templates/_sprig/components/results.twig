@@ -1,0 +1,35 @@
+{% if sprig.isRequest() %}
+    {% if match %}
+        <div class="border border-gray-200 rounded-lg overflow-hidden">
+            {% if match.image|length %}
+                <img src="{{ match.image.one().url('animalProfile') }}" alt="{{ match.title }}" class="w-full h-64 object-cover">
+            {% else %}
+                <div class="w-full h-64 bg-gray-200 flex items-center justify-center">
+                    <span class="text-gray-400 text-6xl">🐾</span>
+                </div>
+            {% endif %}
+            <div class="p-6">
+                <h3 class="text-2xl font-bold text-gray-900 mb-3">{{ match.title }}</h3>
+                {% if match.shortDescription %}
+                    <p class="text-gray-600 mb-4">{{ match.shortDescription }}</p>
+                {% endif %}
+                <div class="grid grid-cols-2 gap-4 text-sm text-gray-600 mb-4">
+                    {% if match.age %}<div><strong>Age:</strong> {{ match.age }}</div>{% endif %}
+                    {% if match.sex %}<div><strong>Sex:</strong> {{ match.sex }}</div>{% endif %}
+                    {% if match.neutered is defined %}<div><strong>Neutered:</strong> {{ match.neutered ? 'Yes' : 'No' }}</div>{% endif %}
+                    <div><strong>Match Score:</strong> {{ ((80 - lowestScore) / 80 * 100)|round }}%</div>
+                </div>
+                <a href="{{ match.url }}" class="block w-full bg-pink-600 text-white text-center py-3 rounded-lg font-semibold hover:bg-pink-700 transition-colors">
+                    View {{ match.title }}'s Profile
+                </a>
+            </div>
+        </div>
+    {% endif %}
+{% else %}
+    <div class="text-center py-12">
+        <div class="text-gray-400 text-6xl mb-4">🐾</div>
+        <h3 class="text-xl font-semibold text-gray-700 mb-2">Start Your Search</h3>
+        <p class="text-gray-500">If you're ready, press the button below. Or adjust the sliders to find your perfect pawmate match!</p>
+        <button sprig s-indicator="#indicator" class="mt-4 bg-pink-600 cursor-pointer text-white text-center py-3 px-3 rounded-lg font-semibold hover:bg-pink-700 transition-colors">Find My Match</button>
+    </div>
+{% endif %}

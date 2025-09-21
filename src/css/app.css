@@ -1,0 +1,117 @@
+@import "https://fonts.googleapis.com/css2?family=Gasoek+One&family=Honk:MORF,SHLN@25,0&display=swap";
+@import "tailwindcss";
+
+@source "../../templates/";
+
+@view-transition {
+    navigation: cross-fade;
+}
+
+.honk-growlr {
+           font-family: Honk, system-ui;
+           font-optical-sizing: auto;
+           font-weight: 400;
+           font-style: normal;
+           font-variation-settings:
+                   "MORF" 25,
+                   "SHLN" 0;
+       }
+
+.assessment-slider {
+    label {
+        @apply block text-lg font-semibold text-gray-700 mb-3;
+    }
+
+    .slider-min-max-labels {
+        @apply flex items-center justify-between mb-2 text-sm text-gray-700;
+    }
+}
+
+.slider {
+    @apply w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer;
+}
+
+:root {
+    --slider-thumb-size: 30px;
+    --slider-thumb-bg: oklch(52.5% 0.223 3.958deg);
+    --slider-thumb-border: 2px solid #fff;
+    --slider-thumb-shadow: 0 2px 4px rgb(0 0 0 / 20%);
+}
+
+.slider::-webkit-slider-thumb {
+    appearance: none;
+    width: var(--slider-thumb-size);
+    height: var(--slider-thumb-size);
+    border-radius: 50%;
+    background: var(--slider-thumb-bg);
+    cursor: pointer;
+    border: var(--slider-thumb-border);
+    box-shadow: var(--slider-thumb-shadow);
+}
+
+.slider::-moz-range-thumb {
+    width: var(--slider-thumb-size);
+    height: var(--slider-thumb-size);
+    border-radius: 50%;
+    background: var(--slider-thumb-bg); /* Standardized with webkit version */
+    cursor: pointer;
+    border: var(--slider-thumb-border);
+    box-shadow: var(--slider-thumb-shadow);
+}
+
+.flip-card {
+    perspective: 1000px;
+    height: 100%;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 2s ease-in-out;
+    transform-style: preserve-3d;
+}
+
+#indicator.loading .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    background: white;
+    border-radius: 0.5rem;
+}
+
+.flip-card-back {
+    transform: rotateY(180deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.app-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: linear-gradient(135deg,
+        #0a0a0a 0%,
+        #1a0f1a 25%,
+        #2d1b3d 50%,
+        #1a0f1a 75%,
+        #000 100%
+    );
+}
+
+
+.content-wrapper {
+    position: relative;
+    z-index: 1;
+}

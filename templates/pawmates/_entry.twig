@@ -1,0 +1,74 @@
+{% extends "_layouts/wrapper" %}
+{% block content %}
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <div class="mb-8">
+            <a href="/" class="text-gray-100 hover:text-white mb-4 inline-block">← Back to Assessment</a>
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                {% if entry.image|length %}
+                    <img src="{{ entry.image.one().url('animalProfile') }}" alt="{{ entry.title }}" class="w-full h-64 md:h-96 object-cover">
+                {% endif %}
+                <div class="p-8">
+                    <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ entry.title }}</h1>
+                    {% if entry.shortDescription %}
+                        <div class="mb-8">
+                            <p class="text-gray-600 text-lg leading-relaxed">{{ entry.shortDescription }}</p>
+                        </div>
+                    {% endif %}
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                        {% if entry.age %}
+                            <div class="text-center">
+                                <div class="text-2xl text-gray-600 mb-1">🎂</div>
+                                <div class="font-semibold text-gray-700">Age</div>
+                                <div class="text-gray-600">{{ entry.age }}</div>
+                            </div>
+                        {% endif %}
+                        {% if entry.sex %}
+                            <div class="text-center">
+                                <div class="text-2xl text-gray-600 mb-1">⚥</div>
+                                <div class="font-semibold text-gray-700">Sex</div>
+                                <div class="text-gray-600">{{ entry.sex.label }}</div>
+                            </div>
+                        {% endif %}
+                        {% if entry.neutered is defined %}
+                            <div class="text-center">
+                                <div class="text-2xl text-gray-600 mb-1">🏥</div>
+                                <div class="font-semibold text-gray-700">Neutered</div>
+                                <div class="text-gray-600">{{ entry.neutered ? 'Yes' : 'No' }}</div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Personality Profile</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {# Change this to be dynamic #}
+                            {% set attributes = [
+                                { name: 'Affection Level', value: entry.affection},
+                                { name: 'Activity Level', value: entry.activityLevel },
+                                { name: 'Body Size', value: entry.bodySize},
+                                { name: 'Hairyness', value: entry.hairyness },
+                                { name: 'Diet', value: entry.diet },
+                                { name: 'Looks', value: entry.attractiveness }
+                            ] %}
+
+                            {% for attr in attributes %}
+                                <div class="bg-gray-50 rounded-lg p-4">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <h3 class="font-semibold text-gray-700">{{ attr.name }}</h3>
+                                        <span class="bg-blue-100 text-pink-800 px-2 py-1 rounded-full text-sm font-medium">
+                                            {{ attr.value ?? 5 }}/10
+                                        </span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-pink-600 h-2 rounded-full"
+                                             style="width: {{ ((attr.value ?? 5) / 10) * 100 }}%"></div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {{ sprig('_sprig/components/adoption-modal', { entryId: entry.id }) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

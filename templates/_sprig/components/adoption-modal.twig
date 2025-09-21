@@ -1,0 +1,137 @@
+{% set open = open ?? false %}
+{% set agreed = agreed ?? false %}
+{# Get the chosen pawmate via entryId passed into sprig include #}
+{% set entry = craft.entries.section('pawmates').id(entryId).one() %}
+
+{# CTA at bottom of Pawmate entry template #}
+<div class="bg-gradient-to-r from-blue-100 to-purple-100 rounded-lg p-8 text-center">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">Interested in {{ entry.title }}?</h2>
+    <p class="text-gray-600 mb-6">Once you choose {{ entry.title }}, you can't go back!</p>
+    <div class="space-y-3 md:space-y-0 md:space-x-4 md:flex md:justify-center">
+        <button
+                sprig
+                s-val:open="1"
+                class="bg-pink-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-pink-700 transition-colors w-full md:w-auto hover:cursor-pointer">
+            I Choose {{ entry.title }}!
+        </button>
+        <a href="/"
+           class="block md:inline-block bg-gray-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-700 transition-colors text-center w-full md:w-auto">
+            Meh, find another one.
+        </a>
+    </div>
+</div>
+{# End of CTA #}
+
+{# Modal with adoption certificate #}
+    {% if open %}
+        <div id="modal-component" class="inline-block">
+            <div class="fixed inset-0 z-50 grid place-items-center" role="dialog" aria-modal="true">
+                <div class="absolute inset-0
+bg-gradient-to-b from-pink-900 to-black"></div>
+                <div class="relative mx-4 w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl ring-1 ring-black/5">
+                    <div class="fixed inset-0 flex items-center justify-center p-4 z-50 pointer-events-none">
+                        <div class="bg-white rounded-lg shadow-2xl max-w-5xl max-h-[90vh] overflow-y-auto pointer-events-auto"
+                             style="z-index: 10000;">
+                            {% if not agreed %}
+                                <div class="p-8">
+                                    <div class="border-8 border-double border-pink-600 rounded-lg p-8 bg-gradient-to-br from-pink-50 to-purple-50">
+                                        <h2 class="text-3xl font-bold text-center mb-6 text-pink-800">
+                                            🐾 Adoption Certificate 🐾
+                                        </h2>
+                                        <div class="text-center mb-6">
+                                            {% if entry.image|length %}
+                                                <img src="{{ entry.image.one().url('animalProfile') }}"
+                                                     alt="{{ entry.title }}"
+                                                     class="w-48 h-48 object-cover rounded-full mx-auto border-4 border-pink-300 shadow-lg">
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="text-center space-y-4 mb-8">
+                                            <p class="text-lg text-gray-700">
+                                                This certifies that <span
+                                                        class="font-bold text-pink-800"> {{ currentUser.friendlyName }}</span>
+                                                will officially adopt
+                                            <p class="text-3xl font-bold text-pink-800">
+                                                {{ entry.title }}
+                                            </p>
+                                            <p class="text-md text-gray-600 italic">
+                                                on {{ now|date('F j, Y') }}
+                                            </p>
+                                        </div>
+
+                                        <div class="border-t-2 border-pink-300 pt-6 mb-8">
+                                            <h3 class="font-bold text-lg mb-3 text-pink-800">Adoption Agreement:</h3>
+                                            <ul class="space-y-2 text-gray-700">
+                                                <li class="flex items-start">
+                                                    <span class="text-pink-600 mr-2">✓</span>
+                                                    <span>I promise to provide unconditional love and care</span>
+                                                </li>
+                                                <li class="flex items-start">
+                                                    <span class="text-pink-600 mr-2">✓</span>
+                                                    <span>I understand this is a lifetime commitment</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="bg-yellow-50 border-2 border-yellow-300 rounded-lg p-4 mb-6">
+                                            <p class="text-sm text-yellow-800 font-semibold text-center">
+                                                ⚠️ By clicking "I Agree", you acknowledge this is a permanent decision
+                                                and cannot be undone!
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex gap-4 mt-6">
+                                        <button
+                                                class="flex-1 bg-pink-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-pink-700 transition-colors"
+                                                sprig
+                                                s-val:agreed="true"
+                                                s-val:open="true">
+                                            I Agree
+                                        </button>
+                                        <button
+                                                class="flex-1 bg-gray-400 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-500 transition-colors"
+                                                sprig
+                                                s-val:show-modal="false">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="p-8 text-center">
+                                    <div class="mb-6">
+                                        <div class="text-6xl mb-4">🎊</div>
+                                        <h2 class="text-3xl font-bold text-green-600 mb-4">
+                                            Congratulations!
+                                        </h2>
+                                        <p class="text-xl text-gray-700 mb-2">
+                                            You have successfully adopted
+                                        </p>
+                                        <p class="text-2xl font-bold text-pink-600 mb-6">
+                                            {{ entry.title }}!
+                                        </p>
+                                        {% set profileImage = currentUser.together|length ? currentUser.together.one() : entry.image|length ? entry.together.one() : null %}
+
+                                        {% if profileImage %}
+                                            <img src="{{ profileImage.url('animalProfile') }}"
+                                                 alt="{{ entry.title }}"
+                                                 class="w-64 h-64 object-cover rounded-lg mx-auto border-4 border-green-400 shadow-lg mb-6">
+                                        {% endif %}
+                                        <p class="text-gray-600 mb-8">
+                                            Your new companion is excited to start this journey with you! <strong>Here's what you'll look like together.</strong>
+                                        </p>
+                                    </div>
+
+                                    <a href="https://amazon.com/s?k=pet+supplies"
+                                       class="bg-pink-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-pink-700 transition-colors"
+                                    >
+                                        Stock on Supplies and Prepare for Your New Friend!
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}

@@ -1,0 +1,58 @@
+{# Attributes Sliders #}
+
+{% set userFieldLayout = craft.app.fields.getLayoutByType('craft\\elements\\User') %}
+{% set userFields = userFieldLayout.getCustomFields() %}
+{% set sliderLabels = {
+    'affection': {
+        'min': {'emoji': '🌵', 'label': 'Cactus'},
+        'max': {'emoji': '🧸', 'label': 'Teddy Bear'}
+    },
+    'activityLevel': {
+        'min': {'emoji': '🥔', 'label': 'Couch Potato'},
+        'max': {'emoji': '🏃', 'label': 'Runner'}
+    },
+    'bodySize': {
+        'min': {'emoji': '🤏', 'label': 'Small'},
+        'max': {'emoji': '🍟', 'label': 'Super Size'}
+    },
+    'hairyness': {
+        'min': {'emoji': '🧑‍🦲', 'label': 'Bald & Beautiful'},
+        'max': {'emoji': '👩‍🦱', 'label': 'Hairy'}
+    },
+    'diet': {
+        'min': {'emoji': '🥬', 'label': 'Vegetarian'},
+        'max': {'emoji': '🥩', 'label': 'Carnivore'}
+    },
+    'attractiveness': {
+        'min': {'emoji': '👵', 'label': 'Only a Mother Could Love'},
+        'max': {'emoji': '🍭', 'label': 'Arm Candy'}
+    }
+} %}
+
+<form sprig s-trigger="change" s-indicator="#indicator" class="space-y-8">
+    {% for field in userFields | filter(field => className(field) == 'craft\\fields\\Range') %}
+    <div class="assessment-slider">
+        <label>
+            {{ field.name }}
+        </label>
+        <div class="slider-min-max-labels">
+            <span>
+                <span class="text-3xl">{{ sliderLabels[field.handle].min.emoji ?? '' }}</span>
+                {{ sliderLabels[field.handle].min.label ?? 'Minimum' }}
+            </span>
+            <span>
+                <span class="text-3xl">{{ sliderLabels[field.handle].max.emoji ?? '' }}</span>
+                {{ sliderLabels[field.handle].max.label ?? 'Maximum' }}
+            </span>
+        </div>
+        <input
+                type="range"
+                name="{{ field.handle }}"
+                min="{{ field.min ?? 0 }}"
+                max="{{ field.max ?? 10 }}"
+                value="{{ _context[field.handle] }}"
+                class="slider"
+        >
+    </div>
+    {% endfor %}
+</form>
